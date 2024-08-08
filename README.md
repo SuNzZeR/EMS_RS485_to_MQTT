@@ -11,6 +11,7 @@ Dieses Projekt bietet eine Schnittstelle zwischen RS485-Kommunikation und MQTT f
 - [Konfiguration](#konfiguration)
 - [Verwendung](#verwendung)
 - [Protokollierung](#protokollierung)
+- [MQTT-Topics](#mqtt-topics)
 - [Funktionen im Detail](#funktionen-im-detail)
 - [Threads](#threads)
 - [Lizenz](#lizenz)
@@ -31,6 +32,12 @@ Das Skript liest Daten von einem EMS über RS485, verarbeitet sie und veröffent
 - `paho-mqtt` Bibliothek für MQTT-Kommunikation
 
 ## Konfiguration
+### EMS Konfiguration
+Setze die EMS-Nummer (falls mehrere EMS ausgelesen werden):
+```python
+EMS_Nr = "0001"
+```
+
 ### RS485 Konfiguration
 Setze die Parameter des RS485-Seriellen Ports:
 ```python
@@ -69,6 +76,66 @@ Das Skript protokolliert verschiedene Ereignisse und Fehler. Die Protokolldatei 
 - `WARNING`: Ein Hinweis darauf, dass etwas Unerwartetes passiert ist.
 - `ERROR`: Ein ernsteres Problem.
 - `CRITICAL`: Ein sehr ernstes Problem.
+
+## MQTT Topics
+
+Ersetze `{EMS_Nr}` durch die tatsächliche EMS-Nummer in allen Topics.
+
+| Schreibende Topics (Abonnieren)                     | Beschreibung                          | Wert                                              |
+|-----------------------------------------------------|---------------------------------------|---------------------------------------------------|
+| solar/ems/{EMS_Nr}/EMS_EM/turn                      | EMS Nulleinspeisung ein-/ausschalten  | String ("on" oder "off")                          |
+| solar/ems/{EMS_Nr}/EMS_Bypass/turn                  | EMS Bypass ein-/ausschalten           | String ("on" oder "off")                          |
+| solar/ems/{EMS_Nr}/EMS_Power_Limit/set              | EMS Leistungsbegrenzung setzen        | Integer (0-1600 W)                                |
+
+| Lesende Topics (Veröffentlichen)                    | Beschreibung                       | Wert                                              |
+|-----------------------------------------------------|------------------------------------|---------------------------------------------------|
+| solar/ems/{EMS_Nr}/EMS_Limit                        | EMS Leistungsgrenze                | String ("on" oder "off")                          |
+| solar/ems/{EMS_Nr}/EMS_Power_Limit                  | EMS Leistungsbegrenzung            | Integer (Watt)                                    |
+| solar/ems/{EMS_Nr}/EMS_Load_Power                   | EMS Lastleistung                   | Integer (Watt)                                    |
+| solar/ems/{EMS_Nr}/EMS_EM                           | EMS Nulleinspeisung                | String ("on" oder "off")                          |
+| solar/ems/{EMS_Nr}/EMS_Bypass                       | EMS Bypass                         | String ("on" oder "off")                          |
+| solar/ems/{EMS_Nr}/EMS_Temperature                  | EMS Temperatur                     | Gleitkommazahl (in °C)                            |
+| solar/ems/{EMS_Nr}/EMS_Load_Energy                  | EMS Lastenergie                    | Gleitkommazahl (in kWh)                           |
+| solar/ems/{EMS_Nr}/MPPT1_Voltage                    | MPPT1 Spannung                     | Gleitkommazahl (in Volt)                          |
+| solar/ems/{EMS_Nr}/MPPT1_Current                    | MPPT1 Strom                        | Gleitkommazahl (in Ampere)                        |
+| solar/ems/{EMS_Nr}/MPPT1_Power                      | MPPT1 Leistung                     | Gleitkommazahl (in Watt)                          |
+| solar/ems/{EMS_Nr}/MPPT1_Energy                     | MPPT1 Energie                      | Gleitkommazahl (in kWh)                           |
+| solar/ems/{EMS_Nr}/MPPT2_Voltage                    | MPPT2 Spannung                     | Gleitkommazahl (in Volt)                          |
+| solar/ems/{EMS_Nr}/MPPT2_Current                    | MPPT2 Strom                        | Gleitkommazahl (in Ampere)                        |
+| solar/ems/{EMS_Nr}/MPPT2_Power                      | MPPT2 Leistung                     | Gleitkommazahl (in Watt)                          |
+| solar/ems/{EMS_Nr}/MPPT2_Energy                     | MPPT2 Energie                      | Gleitkommazahl (in kWh)                           |
+| solar/ems/{EMS_Nr}/MPPT_Total_Energy                | Gesamte MPPT Energie               | Gleitkommazahl (in kWh)                           |
+| solar/ems/{EMS_Nr}/Battery_Online                   | Batterie Online                    | String ("Online" oder "Offline")                  |
+| solar/ems/{EMS_Nr}/Battery_BMS_Online               | Batterie BMS Online                | String ("Online" oder "Offline")                  |
+| solar/ems/{EMS_Nr}/Battery_SOC                      | Batterie Ladezustand (SOC)         | Integer (in %)                                    |
+| solar/ems/{EMS_Nr}/Battery_Voltage                  | Batteriespannung                   | Gleitkommazahl (in Volt)                          |
+| solar/ems/{EMS_Nr}/Battery_Charging_Power           | Batterie Ladeleistung              | Gleitkommazahl (in Watt)                          |
+| solar/ems/{EMS_Nr}/Battery_Charging_Current         | Batterie Ladestrom                 | Gleitkommazahl (in Ampere)                        |
+| solar/ems/{EMS_Nr}/Battery_Discharging_Power        | Batterie Entladeleistung           | Gleitkommazahl (in Watt)                          |
+| solar/ems/{EMS_Nr}/Battery_Discharging_Current      | Batterie Entladestrom              | Gleitkommazahl (in Ampere)                        |
+| solar/ems/{EMS_Nr}/Battery_Temperature              | Batterietemperatur                 | Gleitkommazahl (in °C)                            |
+| solar/ems/{EMS_Nr}/Battery_Energy                   | Batterie Energie                   | Gleitkommazahl (in kWh)                           |
+| solar/ems/{EMS_Nr}/Battery_BMS_Type                 | Batterie BMS Typ                   | String                                            |
+| solar/ems/{EMS_Nr}/Battery_Type                     | Batterietyp                        | String                                            |
+| solar/ems/{EMS_Nr}/Battery_Voltage_Type             | Batteriespannungstyp               | String                                            |
+| solar/ems/{EMS_Nr}/Battery_Capacity                 | Batteriekapazität                  | Integer (in Ah)                                   |
+| solar/ems/{EMS_Nr}/Battery_BMS_Max_Voltage          | Batterie BMS Maximalspannung       | Gleitkommazahl (in Volt)                          |
+| solar/ems/{EMS_Nr}/Battery_BMS_Max_Current          | Batterie BMS Maximalstrom          | Gleitkommazahl (in Ampere)                        |
+| solar/ems/{EMS_Nr}/Battery_BMS_Min_Voltage          | Batterie BMS Minimalspannung       | Gleitkommazahl (in Volt)                          |
+| solar/ems/{EMS_Nr}/Battery_Max_Voltage              | Batterie Maximalspannung           | Gleitkommazahl (in Volt)                          |
+| solar/ems/{EMS_Nr}/Battery_Max_Current              | Batterie Maximalstrom              | Gleitkommazahl (in Ampere)                        |
+| solar/ems/{EMS_Nr}/Battery_Min_Voltage              | Batterie Minimalspannung           | Gleitkommazahl (in Volt)                          |
+| solar/ems/{EMS_Nr}/EM_Online                        | EM Online                          | String ("Online" oder "Offline")                  |
+| solar/ems/{EMS_Nr}/EM_A_Power                       | EM A Leistung                      | Gleitkommazahl (in Watt)                          |
+| solar/ems/{EMS_Nr}/EM_A_Current                     | EM A Strom                         | Gleitkommazahl (in Ampere)                        |
+| solar/ems/{EMS_Nr}/EM_A_Voltage                     | EM A Spannung                      | Gleitkommazahl (in Volt)                          |
+| solar/ems/{EMS_Nr}/EM_B_Power                       | EM B Leistung                      | Gleitkommazahl (in Watt)                          |
+| solar/ems/{EMS_Nr}/EM_B_Current                     | EM B Strom                         | Gleitkommazahl (in Ampere)                        |
+| solar/ems/{EMS_Nr}/EM_B_Voltage                     | EM B Spannung                      | Gleitkommazahl (in Volt)                          |
+| solar/ems/{EMS_Nr}/EM_C_Power                       | EM C Leistung                      | Gleitkommazahl (in Watt)                          |
+| solar/ems/{EMS_Nr}/EM_C_Current                     | EM C Strom                         | Gleitkommazahl (in Ampere)                        |
+| solar/ems/{EMS_Nr}/EM_C_Voltage                     | EM C Spannung                      | Gleitkommazahl (in Volt)                          |
+| solar/ems/{EMS_Nr}/EM_Total_Power                   | Gesamte EM Leistung                | Gleitkommazahl (in Watt)                          |
 
 ## Funktionen im Detail
 ### `write_log(message, log_level)`
