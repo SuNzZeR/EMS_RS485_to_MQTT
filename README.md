@@ -12,8 +12,7 @@ Dieses Projekt bietet eine Schnittstelle zwischen RS485-Kommunikation und MQTT f
 - [Verwendung](#verwendung)
 - [Protokollierung](#protokollierung)
 - [MQTT-Topics](#mqtt-topics)
-- [Funktionen im Detail](#funktionen-im-detail)
-- [Threads](#threads)
+- [HomeAssistant MQTT-Entitäten](#homeassistant-mqtt-entitäten)
 - [Lizenz](#lizenz)
 
 ## Übersicht
@@ -149,61 +148,243 @@ Ersetze `{EMS_Nr}` durch die tatsächliche EMS-Nummer in allen Topics.
 | solar/ems/{EMS_Nr}/EM_C_Voltage                     | EM C Spannung                      | Gleitkommazahl (in Volt)                          |
 | solar/ems/{EMS_Nr}/EM_Total_Power                   | Gesamte EM Leistung                | Gleitkommazahl (in Watt)                          |
 
-## Funktionen im Detail
-### `write_log(message, log_level)`
-Schreibt Protokollnachrichten mit einer bestimmten Protokollierungsstufe.
+## HomeAssistant MQTT-Entitäten
+   ```yaml
+mqtt:
+  - number:
+    - name: "EMS_0001_EMS_Power_Limit"
+      state_topic: "solar/ems/0001/EMS_Power_Limit"
+      command_topic: "solar/ems/0001/EMS_Power_Limit/set"
+      unit_of_measurement: "W"
+      device_class: power
+      min: 0
+      max: 1600
+      mode: box
+ 
+  - switch:
+    - name: "EMS_0001_EMS_EM"
+      state_topic: "solar/ems/0001/EMS_EM"
+      command_topic: "solar/ems/0001/EMS_EM/turn"
+      payload_on: "on"
+      payload_off: "off"
+ 
+    - name: "EMS_0001_EMS_Bypass"
+      state_topic: "solar/ems/0001/EMS_Bypass"
+      command_topic: "solar/ems/0001/EMS_Bypass/turn"
+      payload_on: "on"
+      payload_off: "off"
+ 
+  - sensor:
+    - name: "EMS_0001_EMS_Limit"
+      state_topic: "solar/ems/0001/EMS_Limit"
+      device_class: connectivity
 
-### `on_connect(client, userdata, flags, rc)`
-Behandelt die erfolgreiche Verbindung zum MQTT-Broker und abonniert Topics.
-
-### `on_message(client, userdata, msg)`
-Verarbeitet empfangene MQTT-Nachrichten.
-
-### `on_disconnect(client, userdata, rc)`
-Behandelt unerwartete Trennungen und versucht, die Verbindung wiederherzustellen.
-
-### `process_mqtt_message(topic, message)`
-Verarbeitet spezifische MQTT-Nachrichten zur Aktualisierung der EMS-Einstellungen.
-
-### `is_valid_EMS_Power_Limit(value)`
-Überprüft, ob ein gegebener EMS-Leistungsbegrenzungswert gültig ist.
-
-### `calculate_crc(data)`
-Berechnet die CRC-16-Prüfsumme für ein gegebenes Datenarray.
-
-### `construct_frame(boot_code, device_address, function_code, register_address, register_count)`
-Konstruiert einen Modbus-Rahmen.
-
-### `send_frame(frame)`
-Sendet einen Modbus-Rahmen über die serielle Schnittstelle.
-
-### `receive_response(frame_base)`
-Empfängt und validiert eine Modbus-Antwort.
-
-### `request_ems(register_address, register_count)`
-Fordert EMS-Registerwerte an und verarbeitet sie.
-
-### `write_ems(register_address, register_count, register_data)`
-Schreibt Daten in EMS-Register.
-
-### `parse_response(response, frame_base, register_count)`
-Analysiert und validiert eine Modbus-Antwort.
-
-### `ems_parse_value(value_address, value)`
-Interpretiert und konvertiert EMS-Registerwerte.
-
-### `ems_publish_data(value_address, parsed_value)`
-Veröffentlicht EMS-Daten an MQTT-Topics.
-
-## Threads
-### `read_ems()`
-Überwacht und steuert EMS-Registerwerte basierend auf Flags.
-
-### `publish_ems()`
-Veröffentlicht neue EMS-Daten aus der Warteschlange an MQTT-Topics.
-
-### `mqtt_read_loop()`
-Führt die Ereignisschleife des MQTT-Clients aus.
+    - name: "EMS_0001_Temperature"
+      state_topic: "solar/ems/0001/EMS_Temperature"
+      unit_of_measurement: "°C"
+      device_class: temperature
+ 
+    - name: "EMS_0001_Load_Energy"
+      state_topic: "solar/ems/0001/EMS_Load_Energy"
+      unit_of_measurement: "kWh"
+      device_class: energy
+ 
+    - name: "EMS_0001_Load_Power"
+      state_topic: "solar/ems/0001/EMS_Load_Power"
+      unit_of_measurement: "W"
+      device_class: power
+ 
+    - name: "EMS_0001_MPPT1_Voltage"
+      state_topic: "solar/ems/0001/MPPT1_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+ 
+    - name: "EMS_0001_MPPT1_Current"
+      state_topic: "solar/ems/0001/MPPT1_Current"
+      unit_of_measurement: "A"
+      device_class: current
+ 
+    - name: "EMS_0001_MPPT1_Power"
+      state_topic: "solar/ems/0001/MPPT1_Power"
+      unit_of_measurement: "W"
+      device_class: power
+ 
+    - name: "EMS_0001_MPPT2_Voltage"
+      state_topic: "solar/ems/0001/MPPT2_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+ 
+    - name: "EMS_0001_MPPT2_Current"
+      state_topic: "solar/ems/0001/MPPT2_Current"
+      unit_of_measurement: "A"
+      device_class: current
+ 
+    - name: "EMS_0001_MPPT2_Power"
+      state_topic: "solar/ems/0001/MPPT2_Power"
+      unit_of_measurement: "W"
+      device_class: power
+ 
+    - name: "EMS_0001_MPPT1_Energy"
+      state_topic: "solar/ems/0001/MPPT1_Energy"
+      unit_of_measurement: "kWh"
+      device_class: energy
+ 
+    - name: "EMS_0001_MPPT2_Energy"
+      state_topic: "solar/ems/0001/MPPT2_Energy"
+      unit_of_measurement: "kWh"
+      device_class: energy
+ 
+    - name: "EMS_0001_MPPT_Total_Energy"
+      state_topic: "solar/ems/0001/MPPT_Total_Energy"
+      unit_of_measurement: "kWh"
+      device_class: energy
+ 
+    - name: "EMS_0001_Battery_Online"
+      state_topic: "solar/ems/0001/Battery_Online"
+      device_class: connectivity
+ 
+    - name: "EMS_0001_Battery_BMS_Online"
+      state_topic: "solar/ems/0001/Battery_BMS_Online"
+      device_class: connectivity
+ 
+    - name: "EMS_0001_Battery_SOC"
+      state_topic: "solar/ems/0001/Battery_SOC"
+      unit_of_measurement: "%"
+      device_class: battery
+ 
+    - name: "EMS_0001_Battery_Voltage"
+      state_topic: "solar/ems/0001/Battery_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+ 
+    - name: "EMS_0001_Battery_Charging_Power"
+      state_topic: "solar/ems/0001/Battery_Charging_Power"
+      unit_of_measurement: "W"
+      device_class: power
+ 
+    - name: "EMS_0001_Battery_Charging_Current"
+      state_topic: "solar/ems/0001/Battery_Charging_Current"
+      unit_of_measurement: "A"
+      device_class: current
+ 
+    - name: "EMS_0001_Battery_Discharging_Power"
+      state_topic: "solar/ems/0001/Battery_Discharging_Power"
+      unit_of_measurement: "W"
+      device_class: power
+ 
+    - name: "EMS_0001_Battery_Discharging_Current"
+      state_topic: "solar/ems/0001/Battery_Discharging_Current"
+      unit_of_measurement: "A"
+      device_class: current
+ 
+    - name: "EMS_0001_Battery_Temperature"
+      state_topic: "solar/ems/0001/Battery_Temperature"
+      unit_of_measurement: "°C"
+      device_class: temperature
+ 
+    - name: "EMS_0001_Battery_Energy"
+      state_topic: "solar/ems/0001/Battery_Energy"
+      unit_of_measurement: "kWh"
+      device_class: energy
+ 
+    - name: "EMS_0001_Battery_BMS_Type"
+      state_topic: "solar/ems/0001/Battery_BMS_Type"
+ 
+    - name: "EMS_0001_Battery_Type"
+      state_topic: "solar/ems/0001/Battery_Type"
+ 
+    - name: "EMS_0001_Battery_Voltage_Type"
+      state_topic: "solar/ems/0001/Battery_Voltage_Type"
+ 
+    - name: "EMS_0001_Battery_Capacity"
+      state_topic: "solar/ems/0001/Battery_Capacity"
+      unit_of_measurement: "Ah"
+      device_class: battery
+ 
+    - name: "EMS_0001_Battery_BMS_Max_Voltage"
+      state_topic: "solar/ems/0001/Battery_BMS_Max_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+ 
+    - name: "EMS_0001_Battery_BMS_Max_Current"
+      state_topic: "solar/ems/0001/Battery_BMS_Max_Current"
+      unit_of_measurement: "A"
+      device_class: current
+ 
+    - name: "EMS_0001_Battery_BMS_Min_Voltage"
+      state_topic: "solar/ems/0001/Battery_BMS_Min_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+ 
+    - name: "EMS_0001_Battery_Max_Voltage"
+      state_topic: "solar/ems/0001/Battery_Max_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+ 
+    - name: "EMS_0001_Battery_Max_Current"
+      state_topic: "solar/ems/0001/Battery_Max_Current"
+      unit_of_measurement: "A"
+      device_class: current
+ 
+    - name: "EMS_0001_Battery_Min_Voltage"
+      state_topic: "solar/ems/0001/Battery_Min_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+ 
+    - name: "EMS_0001_EM_Online"
+      state_topic: "solar/ems/0001/EM_Online"
+      device_class: connectivity
+ 
+    - name: "EMS_0001_EM_A_Power"
+      state_topic: "solar/ems/0001/EM_A_Power"
+      unit_of_measurement: "W"
+      device_class: power
+ 
+    - name: "EMS_0001_EM_A_Current"
+      state_topic: "solar/ems/0001/EM_A_Current"
+      unit_of_measurement: "A"
+      device_class: current
+ 
+    - name: "EMS_0001_EM_A_Voltage"
+      state_topic: "solar/ems/0001/EM_A_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+ 
+    - name: "EMS_0001_EM_B_Power"
+      state_topic: "solar/ems/0001/EM_B_Power"
+      unit_of_measurement: "W"
+      device_class: power
+ 
+    - name: "EMS_0001_EM_B_Current"
+      state_topic: "solar/ems/0001/EM_B_Current"
+      unit_of_measurement: "A"
+      device_class: current
+ 
+    - name: "EMS_0001_EM_B_Voltage"
+      state_topic: "solar/ems/0001/EM_B_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+ 
+    - name: "EMS_0001_EM_C_Power"
+      state_topic: "solar/ems/0001/EM_C_Power"
+      unit_of_measurement: "W"
+      device_class: power
+ 
+    - name: "EMS_0001_EM_C_Current"
+      state_topic: "solar/ems/0001/EM_C_Current"
+      unit_of_measurement: "A"
+      device_class: current
+ 
+    - name: "EMS_0001_EM_C_Voltage"
+      state_topic: "solar/ems/0001/EM_C_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+ 
+    - name: "EMS_0001_EM_Total_Power"
+      state_topic: "solar/ems/0001/EM_Total_Power"
+      unit_of_measurement: "W"
+      device_class: power
+   ```
 
 ## Lizenz
 Dieses Projekt ist unter der MIT-Lizenz lizenziert. Siehe die [LICENSE](LICENSE) Datei für Details.
