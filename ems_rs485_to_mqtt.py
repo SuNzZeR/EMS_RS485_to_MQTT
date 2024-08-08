@@ -875,17 +875,17 @@ def read_ems():
                 # Batterie Einstellungen
                 request_ems(0x301F,0x000E) 
                 
-             elif sequence_2 == 1:
+            elif sequence_2 == 1:
                  
                 # EMS Einstellungen
                 request_ems(0x302D,0x000F) 
                  
-             elif sequence_2 == 2:
+            elif sequence_2 == 2:
                  
                 # Batterie & EMS Informationen
                 request_ems(0x4016,0x000C)       
 
-             if sequence_2 == 2:
+            if sequence_2 == 2:
         
                 sequence_2 = 0
             
