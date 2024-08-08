@@ -51,7 +51,19 @@ EMS_Nr = "0001"
 ```
 
 ### RS485 Konfiguration
-Setze die Parameter des RS485-Seriellen Ports:
+Herausfinden des angeschlossenen RS485
+
+USB to RS485:
+```bash
+sudo ls -l /dev/ttyUSB*
+```
+
+RS485 HAT:
+```bash
+sudo ls -l /dev/ttyS*
+```
+
+Setzen des RS485-Seriellen Ports:
 ```python
 RS485_PORT = "/dev/ttyUSB0"
 ```
