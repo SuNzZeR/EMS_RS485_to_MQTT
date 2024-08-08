@@ -1,7 +1,7 @@
 
 # RS485 zu MQTT Schnittstelle für den Tentek EMS
 
-![Tentek EMS Controller](TTTEMS1600-1000-1.jpg)
+![Tentek EMS Controller](TTTEMS1600-1000-1.png)
 
 Dieses Projekt bietet eine Schnittstelle zwischen RS485-Kommunikation und MQTT für den Tentek EMS Controller. Es ermöglicht dem EMS, mit einem MQTT-Broker zu kommunizieren, um verschiedene Topics zu veröffentlichen und zu abonnieren, was eine Fernsteuerung und -überwachung ermöglicht.
 
