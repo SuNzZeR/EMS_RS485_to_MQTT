@@ -206,6 +206,8 @@ Ersetze `{EMS_Nr}` durch die tatsächliche EMS-Nummer in allen Topics.
 | solar/ems/{EMS_Nr}/EM_Total_Power                   | Gesamte EM Leistung                | Gleitkommazahl (in Watt)                          |
 
 ## HomeAssistant MQTT-Entitäten
+![HomeAssistant_Entitäten](HomeAssistant_Entitäten.jpg)
+
    ```yaml
 mqtt:
   - number:
