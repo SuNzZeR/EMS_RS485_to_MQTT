@@ -26,10 +26,22 @@ Das Skript liest Daten von einem EMS über RS485, verarbeitet sie und veröffent
 - Protokollierung von Ereignissen und Fehlern
 
 ## Setup und Installation
+### Benötigte Hardware
+- Raspberry Pi
+- SD-Karte
+- [USB to RS485 Converter](https://www.amazon.de/dp/B081MZLY6G) oder [RS485 CAN HAT](https://www.amazon.de/gp/product/B09JKJCMHN)
+
+
 ### Voraussetzungen
 - Python 3.x
 - `pyserial` Bibliothek für RS485-Kommunikation
 - `paho-mqtt` Bibliothek für MQTT-Kommunikation
+
+### RS485 Verkabelung 
+| EMS RS485                    | RPi RS485 (ohne 120 Ohm Widerstand)  | BMS RS485                                         |
+|------------------------------|--------------------------------------|---------------------------------------------------|
+| Pin 1                        | Anschluss A                          | Pin 6                                             |
+| Pin 5                        | Anschluss B                          | Pin 5                                             |
 
 ## Konfiguration
 ### EMS Konfiguration
