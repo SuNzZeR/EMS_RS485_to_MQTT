@@ -37,6 +37,7 @@ Das Skript liest Daten von einem EMS über RS485, verarbeitet sie und veröffent
 - `paho-mqtt` Bibliothek für MQTT-Kommunikation
 
 ### RS485 Verkabelung 
+Stelle sicher, dass der EMS und die Batterie richtig am RPi angeschlossen sind.
 | EMS RS485                    | RPi RS485 (ohne 120 Ohm Widerstand)  | BMS RS485                                         |
 |------------------------------|--------------------------------------|---------------------------------------------------|
 | Pin 1                        | Anschluss A                          | Pin 6                                             |
@@ -72,11 +73,46 @@ LOG_FILE = "/home/pi/ems_mqtt/your_script_name.log"
 ```
 
 ## Verwendung
-1. Stelle sicher, dass dein EMS-Gerät an den RS485-Port angeschlossen ist.
-2. Führe das Skript aus:
+
+### Ausführen des Programms
+Führe das Skript aus:
    ```bash
-   python ems_rs485_to_mqtt.py
+   python3 ems_rs485_to_mqtt.py
    ```
+
+### Service einrichten
+Erstelle eine neue Service-Datei für systemd
+```bash
+sudo nano /etc/systemd/system/ems_mqtt.service
+```
+
+Füge folgenden Inhalt ein (bitte Pfad anpassen)
+```bash
+[Unit]
+Description=RS485 to MQTT Service for EMS
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/ems_mqtt/ems_rs485_to_mqtt.py
+WorkingDirectory=/home/pi/ems_mqtt
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Aktiviere den neuen Service, sodass er beim Booten automatisch gestartet wird.
+```bash
+sudo systemctl enable ems_mqtt.service
+```
+
+Starte den Service
+```bash
+sudo systemctl start ems_mqtt.service
+```
 
 ## Protokollierung
 Das Skript protokolliert verschiedene Ereignisse und Fehler. Die Protokolldatei wird durch die Variable `LOG_FILE` angegeben.
