@@ -816,6 +816,7 @@ def read_ems():
     global EMS_Power_Limit_Value
        
     sequence = 0
+    sequence_2 = 0
 
     while running.is_set():
     
@@ -857,33 +858,42 @@ def read_ems():
         request_ems(0x4001,0x0010)
         
         # Zyklische zusätzliche Leseanforderungen.
-        # EMS Einstellungen
         if sequence == 0:
-        
-            request_ems(0x302D,0x000F) 
-        
-        # Batterie Einstellungen
-        elif sequence == 1:
-        
-            request_ems(0x301F,0x000E) 
-        
-        # Batterie & EMS Informationen
-        elif sequence == 2:
-        
-            request_ems(0x4016,0x000C) 
-        
-        # CT Informationen
-        elif sequence == 3:
-        
+
+            # CT Informationen
             request_ems(0x3022,0x000C) 
         
-        # Batterie & CT Informationen
-        elif sequence == 4:
-        
+        elif sequence == 1:
+
+            # Batterie & CT Informationen
             request_ems(0x303A,0x0009)
-            
         
-        if sequence == 4:
+        elif sequence == 2:
+
+            if sequence_2 == 0:
+                
+                # Batterie Einstellungen
+                request_ems(0x301F,0x000E) 
+                
+             elif sequence_2 == 1:
+                 
+                # EMS Einstellungen
+                request_ems(0x302D,0x000F) 
+                 
+             elif sequence_2 == 2:
+                 
+                # Batterie & EMS Informationen
+                request_ems(0x4016,0x000C)       
+
+             if sequence_2 == 2:
+        
+                sequence_2 = 0
+            
+            else:
+        
+                sequence_2 += 1
+        
+        if sequence == 2:
         
             sequence = 0
             
