@@ -1,44 +1,44 @@
 
-# RS485 to MQTT Interface for EMS
-## Author: Patrick Völker
+# RS485 zu MQTT Schnittstelle für den Tentek EMS
+## Autor: Patrick Völker
 
-This project provides a bridge between RS485 communication and MQTT for an Tentek EMS Controller. It allows the EMS to communicate with an MQTT broker to publish and subscribe to various topics, enabling remote control and monitoring.
+Dieses Projekt bietet eine Schnittstelle zwischen RS485-Kommunikation und MQTT für den Tentek EMS Controller. Es ermöglicht dem EMS, mit einem MQTT-Broker zu kommunizieren, um verschiedene Themen zu veröffentlichen und zu abonnieren, was eine Fernsteuerung und -überwachung ermöglicht.
 
-## Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Setup and Installation](#setup-and-installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Logging](#logging)
-- [Functions](#functions)
+## Inhaltsverzeichnis
+- [Übersicht](#übersicht)
+- [Funktionen](#funktionen)
+- [Setup und Installation](#setup-und-installation)
+- [Konfiguration](#konfiguration)
+- [Verwendung](#verwendung)
+- [Protokollierung](#protokollierung)
+- [Funktionen im Detail](#funktionen-im-detail)
 - [Threads](#threads)
-- [License](#license)
+- [Lizenz](#lizenz)
 
-## Overview
-The script reads data from an EMS via RS485, processes it, and publishes it to an MQTT broker. It also subscribes to MQTT topics to control the EMS.
+## Übersicht
+Das Skript liest Daten von einem EMS über RS485, verarbeitet sie und veröffentlicht sie an einen MQTT-Broker. Es abonniert auch MQTT-Themen, um das EMS zu steuern.
 
-## Features
-- Read and write EMS register values via RS485
-- Publish EMS data to MQTT topics
-- Subscribe to MQTT topics to control EMS settings
-- Logging of events and errors
+## Funktionen
+- Lesen und Schreiben von EMS-Registerwerten über RS485
+- Veröffentlichen von EMS-Daten an MQTT-Themen
+- Abonnieren von MQTT-Themen zur Steuerung der EMS-Einstellungen
+- Protokollierung von Ereignissen und Fehlern
 
-## Setup and Installation
-### Requirements
+## Setup und Installation
+### Voraussetzungen
 - Python 3.x
-- `pyserial` library for RS485 communication
-- `paho-mqtt` library for MQTT communication
+- `pyserial` Bibliothek für RS485-Kommunikation
+- `paho-mqtt` Bibliothek für MQTT-Kommunikation
 
-## Configuration
-### RS485 Configuration
-Set the RS485 serial port:
+## Konfiguration
+### RS485 Konfiguration
+Setze die Parameter des RS485-Seriellen Ports:
 ```python
 RS485_PORT = "/dev/ttyUSB0"
 ```
 
-### MQTT Configuration
-Set the MQTT broker connection parameters:
+### MQTT Konfiguration
+Setze die Verbindungsparameter des MQTT-Brokers:
 ```python
 MQTT_BROKER = "192.168.178.123"
 MQTT_PORT = 1883
@@ -46,91 +46,85 @@ MQTT_USERNAME = "mqtt"
 MQTT_PASSWORD = "12345"
 ```
 
-### Logging Configuration
-Set the logging parameters:
+### Protokollierungskonfiguration
+Setze die Protokollierungsparameter:
 ```python
 LOG_LEVEL = logging.INFO
 LOG_FILE = "/home/pi/ems_mqtt/your_script_name.log"
 ```
 
-## Usage
-1. Ensure your EMS device is connected to the RS485 port.
-2. Run the script:
+## Verwendung
+1. Stelle sicher, dass dein EMS-Gerät an den RS485-Port angeschlossen ist.
+2. Führe das Skript aus:
    ```bash
    python ems_rs485_to_mqtt.py
    ```
 
-## Logging
-The script logs various events and errors. The log file is specified by the `LOG_FILE` variable.
+## Protokollierung
+Das Skript protokolliert verschiedene Ereignisse und Fehler. Die Protokolldatei wird durch die Variable `LOG_FILE` angegeben.
 
-### Log Levels
-- `DEBUG`: Detailed information for diagnosing problems.
-- `INFO`: Confirmation that things are working as expected.
-- `WARNING`: An indication that something unexpected happened.
-- `ERROR`: A more serious problem.
-- `CRITICAL`: A very serious problem.
+### Protokollierungsstufen
+- `DEBUG`: Detaillierte Informationen zur Diagnose von Problemen.
+- `INFO`: Bestätigung, dass alles wie erwartet funktioniert.
+- `WARNING`: Ein Hinweis darauf, dass etwas Unerwartetes passiert ist.
+- `ERROR`: Ein ernsteres Problem.
+- `CRITICAL`: Ein sehr ernstes Problem.
 
-## Functions
+## Funktionen im Detail
 ### `write_log(message, log_level)`
-Writes log messages with a specific log level.
+Schreibt Protokollnachrichten mit einer bestimmten Protokollierungsstufe.
 
 ### `on_connect(client, userdata, flags, rc)`
-Handles successful connection to the MQTT broker and subscribes to topics.
+Behandelt die erfolgreiche Verbindung zum MQTT-Broker und abonniert Themen.
 
 ### `on_message(client, userdata, msg)`
-Processes received MQTT messages.
+Verarbeitet empfangene MQTT-Nachrichten.
 
 ### `on_disconnect(client, userdata, rc)`
-Handles unexpected disconnections and attempts to reconnect.
+Behandelt unerwartete Trennungen und versucht, die Verbindung wiederherzustellen.
 
 ### `process_mqtt_message(topic, message)`
-Processes specific MQTT messages to update EMS settings.
+Verarbeitet spezifische MQTT-Nachrichten zur Aktualisierung der EMS-Einstellungen.
 
 ### `is_valid_EMS_Power_Limit(value)`
-Checks if a given EMS power limit value is valid.
+Überprüft, ob ein gegebener EMS-Leistungsbegrenzungswert gültig ist.
 
 ### `calculate_crc(data)`
-Calculates the CRC-16 checksum for a given data array.
+Berechnet die CRC-16-Prüfsumme für ein gegebenes Datenarray.
 
 ### `construct_frame(boot_code, device_address, function_code, register_address, register_count)`
-Constructs a Modbus frame.
+Konstruiert einen Modbus-Rahmen.
 
 ### `send_frame(frame)`
-Sends a Modbus frame over the serial interface.
+Sendet einen Modbus-Rahmen über die serielle Schnittstelle.
 
 ### `receive_response(frame_base)`
-Receives and validates a Modbus response.
+Empfängt und validiert eine Modbus-Antwort.
 
 ### `request_ems(register_address, register_count)`
-Requests and processes EMS register values.
+Fordert EMS-Registerwerte an und verarbeitet sie.
 
 ### `write_ems(register_address, register_count, register_data)`
-Writes data to EMS registers.
+Schreibt Daten in EMS-Register.
 
 ### `parse_response(response, frame_base, register_count)`
-Analyzes and validates a Modbus response.
+Analysiert und validiert eine Modbus-Antwort.
 
 ### `ems_parse_value(value_address, value)`
-Interprets and converts EMS register values.
+Interpretiert und konvertiert EMS-Registerwerte.
 
-### `ems_publish_data(value_address,parsed_value)`
-Publishes EMS data to MQTT topics.
+### `ems_publish_data(value_address, parsed_value)`
+Veröffentlicht EMS-Daten an MQTT-Themen.
 
 ## Threads
 ### `read_ems()`
-Monitors and controls EMS register values based on flags.
+Überwacht und steuert EMS-Registerwerte basierend auf Flags.
 
 ### `publish_ems()`
-Publishes new EMS data from the queue to MQTT topics.
+Veröffentlicht neue EMS-Daten aus der Warteschlange an MQTT-Themen.
 
 ### `mqtt_read_loop()`
-Runs the MQTT client's event loop.
+Führt die Ereignisschleife des MQTT-Clients aus.
 
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-Feel free to contribute to this project by opening issues or submitting pull requests. For any questions, contact the author.
-
-Enjoy using the RS485 to MQTT interface for EMS!
+## Lizenz
+Dieses Projekt ist unter der MIT-Lizenz lizenziert. Siehe die [LICENSE](LICENSE) Datei für Details.
