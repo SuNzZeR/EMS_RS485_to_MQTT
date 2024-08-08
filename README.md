@@ -2,7 +2,7 @@
 # RS485 zu MQTT Schnittstelle für den Tentek EMS
 ## Autor: Patrick Völker
 
-Dieses Projekt bietet eine Schnittstelle zwischen RS485-Kommunikation und MQTT für den Tentek EMS Controller. Es ermöglicht dem EMS, mit einem MQTT-Broker zu kommunizieren, um verschiedene Themen zu veröffentlichen und zu abonnieren, was eine Fernsteuerung und -überwachung ermöglicht.
+Dieses Projekt bietet eine Schnittstelle zwischen RS485-Kommunikation und MQTT für den Tentek EMS Controller. Es ermöglicht dem EMS, mit einem MQTT-Broker zu kommunizieren, um verschiedene Topics zu veröffentlichen und zu abonnieren, was eine Fernsteuerung und -überwachung ermöglicht.
 
 ## Inhaltsverzeichnis
 - [Übersicht](#übersicht)
@@ -17,12 +17,12 @@ Dieses Projekt bietet eine Schnittstelle zwischen RS485-Kommunikation und MQTT f
 - [Lizenz](#lizenz)
 
 ## Übersicht
-Das Skript liest Daten von einem EMS über RS485, verarbeitet sie und veröffentlicht sie an einen MQTT-Broker. Es abonniert auch MQTT-Themen, um das EMS zu steuern.
+Das Skript liest Daten von einem EMS über RS485, verarbeitet sie und veröffentlicht sie an einen MQTT-Broker. Es abonniert auch MQTT-Topics, um das EMS zu steuern.
 
 ## Funktionen
 - Lesen und Schreiben von EMS-Registerwerten über RS485
-- Veröffentlichen von EMS-Daten an MQTT-Themen
-- Abonnieren von MQTT-Themen zur Steuerung der EMS-Einstellungen
+- Veröffentlichen von EMS-Daten an MQTT-Topics
+- Abonnieren von MQTT-Topics zur Steuerung der EMS-Einstellungen
 - Protokollierung von Ereignissen und Fehlern
 
 ## Setup und Installation
@@ -154,7 +154,7 @@ Ersetze `{EMS_Nr}` durch die tatsächliche EMS-Nummer in allen Topics.
 Schreibt Protokollnachrichten mit einer bestimmten Protokollierungsstufe.
 
 ### `on_connect(client, userdata, flags, rc)`
-Behandelt die erfolgreiche Verbindung zum MQTT-Broker und abonniert Themen.
+Behandelt die erfolgreiche Verbindung zum MQTT-Broker und abonniert Topics.
 
 ### `on_message(client, userdata, msg)`
 Verarbeitet empfangene MQTT-Nachrichten.
@@ -193,14 +193,14 @@ Analysiert und validiert eine Modbus-Antwort.
 Interpretiert und konvertiert EMS-Registerwerte.
 
 ### `ems_publish_data(value_address, parsed_value)`
-Veröffentlicht EMS-Daten an MQTT-Themen.
+Veröffentlicht EMS-Daten an MQTT-Topics.
 
 ## Threads
 ### `read_ems()`
 Überwacht und steuert EMS-Registerwerte basierend auf Flags.
 
 ### `publish_ems()`
-Veröffentlicht neue EMS-Daten aus der Warteschlange an MQTT-Themen.
+Veröffentlicht neue EMS-Daten aus der Warteschlange an MQTT-Topics.
 
 ### `mqtt_read_loop()`
 Führt die Ereignisschleife des MQTT-Clients aus.
