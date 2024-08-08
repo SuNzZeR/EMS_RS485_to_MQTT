@@ -30,7 +30,6 @@ Das Skript liest Daten von einem EMS über RS485, verarbeitet sie und veröffent
 - SD-Karte
 - [USB to RS485 Converter](https://www.amazon.de/dp/B081MZLY6G) oder [RS485 CAN HAT](https://www.amazon.de/gp/product/B09JKJCMHN)
 
-
 ### Voraussetzungen
 - Python 3.x
 - `pyserial` Bibliothek für RS485-Kommunikation
@@ -42,6 +41,15 @@ Stelle sicher, dass der EMS und die Batterie richtig am RPi angeschlossen sind.
 |------------------------------|--------------------------------------|---------------------------------------------------|
 | Pin 1                        | Anschluss A                          | Pin 6                                             |
 | Pin 5                        | Anschluss B                          | Pin 5                                             |
+
+### Anleitungen für Installation von
+- [Raspberry Pi OS](https://www.raspberrypi.com/documentation/computers/getting-started.html)
+- [RS485 CAN HAT am RPi](https://www.waveshare.com/wiki/RS485_CAN_HAT#RS485_Usage)
+
+### Vorbereitung des USB to RS485 Converters (falls verwendet)
+Leider kommen die "USB to RS485"-Converter immer mit einem 120 Ohm Widerstand. Dieser muss "ausgebaut" werden, da es sonst zu Störungen zwischen EMS und dem BMS kommt. Wichtig ist, dass dabei die Platine nicht beschädigt wird und dass kein Kontakt zwischen Anschluss A und Abnschluss B entsteht.
+
+![USB to RS485 Converter Widerstanad](USB_TO_RS485_FAQ01.png)
 
 ## Konfiguration
 ### EMS Konfiguration
