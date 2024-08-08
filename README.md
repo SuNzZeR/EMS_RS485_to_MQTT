@@ -44,7 +44,7 @@ Stelle sicher, dass der EMS und die Batterie richtig am RPi angeschlossen sind.
 
 ### Anleitungen für Installation von
 - [Raspberry Pi OS](https://www.raspberrypi.com/documentation/computers/getting-started.html)
-- [RS485 CAN HAT am RPi](https://www.waveshare.com/wiki/RS485_CAN_HAT#RS485_Usage)
+- [RS485 CAN HAT am RPi](https://www.waveshare.com/wiki/RS485_CAN_HAT#RS485_Usage) (falls verwendet)
 
 ### Vorbereitung des USB to RS485 Converters (falls verwendet)
 Leider kommen die "USB to RS485"-Converter immer mit einem 120 Ohm Widerstand. Dieser muss "ausgebaut" werden, da es sonst zu Störungen zwischen EMS und dem BMS kommt. Wichtig ist, dass dabei die Platine nicht beschädigt wird und dass kein Kontakt zwischen Anschluss A und Abnschluss B entsteht.
