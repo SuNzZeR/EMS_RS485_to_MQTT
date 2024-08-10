@@ -1,0 +1,295 @@
+mqtt:
+############### MQTT Tentek EMS ###############
+##### Angepasst und Beschrieben: ~Gregor  #####
+# Nicht benötige Entitäten können mittels "#" am Zeilenanfang deaktiviert werden.
+# Wichtig ist hierbei, dass der gesamte Block auskommentiert werden muss.
+
+##### Schalter zur Steuerung des EMS #####
+  - number:
+    #Statisches Einspeiselimit 
+    - name: "EMS_0001_EMS_Power_Limit"
+      state_topic: "solar/ems/0001/EMS_Power_Limit"
+      command_topic: "solar/ems/0001/EMS_Power_Limit/set"
+      unit_of_measurement: "W"
+      device_class: power
+      min: 0
+      max: 1600
+      mode: box
+
+  - switch:
+    #schaltet die Nulleinspeisung ein/aus
+    - name: "EMS_0001_EMS_EM"
+      state_topic: "solar/ems/0001/EMS_EM"
+      command_topic: "solar/ems/0001/EMS_EM/turn"
+      payload_on: "on"
+      payload_off: "off"
+
+    #schaltet den Bypass ein/aus. Nur nutzbar, wenn das BMS mit dem EMS verbunden ist!
+    - name: "EMS_0001_EMS_Bypass"
+      state_topic: "solar/ems/0001/EMS_Bypass"
+      command_topic: "solar/ems/0001/EMS_Bypass/turn"
+      payload_on: "on"
+      payload_off: "off"
+
+  - sensor:
+##### EMS allgemein #####
+    #gibt an, ob das statische Einspeiselimit berücksichtig wird, wenn die Nulleinspeisung aus ist
+    - name: "EMS_0001_EMS_Limit"
+      state_topic: "solar/ems/0001/EMS_Limit"
+
+    #Temperatur EMS
+    - name: "EMS_0001_Temperature"
+      state_topic: "solar/ems/0001/EMS_Temperature"
+      unit_of_measurement: "°C"
+      device_class: temperature
+
+    #gibt an, wie viel kWh zum WR geschoben wurden
+    - name: "EMS_0001_Load_Energy"
+      state_topic: "solar/ems/0001/EMS_Load_Energy"
+      unit_of_measurement: "kWh"
+      device_class: energy
+
+    #gibt an, wie viel Leistung zum WR geht
+    - name: "EMS_0001_Load_Power"
+      state_topic: "solar/ems/0001/EMS_Load_Power"
+      unit_of_measurement: "W"
+      device_class: power
+
+
+##### PV-Eingänge #####
+    #Spannung PV1
+    - name: "EMS_0001_MPPT1_Voltage"
+      state_topic: "solar/ems/0001/MPPT1_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+
+    #Strom PV1
+    - name: "EMS_0001_MPPT1_Current"
+      state_topic: "solar/ems/0001/MPPT1_Current"
+      unit_of_measurement: "A"
+      device_class: current
+
+    #Leistung PV1
+    - name: "EMS_0001_MPPT1_Power"
+      state_topic: "solar/ems/0001/MPPT1_Power"
+      unit_of_measurement: "W"
+      device_class: power
+
+    #Spannung PV2
+    - name: "EMS_0001_MPPT2_Voltage"
+      state_topic: "solar/ems/0001/MPPT2_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+
+    #Strom PV2
+    - name: "EMS_0001_MPPT2_Current"
+      state_topic: "solar/ems/0001/MPPT2_Current"
+      unit_of_measurement: "A"
+      device_class: current
+
+    #Leistung PV2
+    - name: "EMS_0001_MPPT2_Power"
+      state_topic: "solar/ems/0001/MPPT2_Power"
+      unit_of_measurement: "W"
+      device_class: power
+
+    #Stromerzeugung PV1
+    - name: "EMS_0001_MPPT1_Energy"
+      state_topic: "solar/ems/0001/MPPT1_Energy"
+      unit_of_measurement: "kWh"
+      device_class: energy
+
+    #Stromerzeugung PV2
+    - name: "EMS_0001_MPPT2_Energy"
+      state_topic: "solar/ems/0001/MPPT2_Energy"
+      unit_of_measurement: "kWh"
+      device_class: energy
+
+    #gesamte Stromerzeugung
+    - name: "EMS_0001_MPPT_Total_Energy"
+      state_topic: "solar/ems/0001/MPPT_Total_Energy"
+      unit_of_measurement: "kWh"
+      device_class: energy
+
+
+##### allgemeine Batterieeinstellungen und -infos #####
+    #Batterie online/offline
+    - name: "EMS_0001_Battery_Online"
+      state_topic: "solar/ems/0001/Battery_Online"
+
+    #Ladestand der Batterie in %
+    - name: "EMS_0001_Battery_SOC"
+      state_topic: "solar/ems/0001/Battery_SOC"
+      unit_of_measurement: "%"
+      device_class: battery
+    
+    #aktuelle Spannung der Batterie
+    - name: "EMS_0001_Battery_Voltage"
+      state_topic: "solar/ems/0001/Battery_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+
+    #Ladeleistung der Batterie in Watt
+    - name: "EMS_0001_Battery_Charging_Power"
+      state_topic: "solar/ems/0001/Battery_Charging_Power"
+      unit_of_measurement: "W"
+      device_class: power
+
+    #Ladestrom der Batterie
+    - name: "EMS_0001_Battery_Charging_Current"
+      state_topic: "solar/ems/0001/Battery_Charging_Current"
+      unit_of_measurement: "A"
+      device_class: current
+
+    #Entladeleistung der Batterie
+    - name: "EMS_0001_Battery_Discharging_Power"
+      state_topic: "solar/ems/0001/Battery_Discharging_Power"
+      unit_of_measurement: "W"
+      device_class: power
+
+    #Entladestrom der Batterie
+    - name: "EMS_0001_Battery_Discharging_Current"
+      state_topic: "solar/ems/0001/Battery_Discharging_Current"
+      unit_of_measurement: "A"
+      device_class: current
+    
+    #gibt summiert an, wie viel kWh in die Batterie geladen und entladen wurden
+    - name: "EMS_0001_Battery_Energy"
+      state_topic: "solar/ems/0001/Battery_Energy"
+      unit_of_measurement: "kWh"
+      device_class: energy
+
+
+##### BMS Einstellungen (z.B. für Felicity-Akkus) #####
+    #BMS online/offline
+    - name: "EMS_0001_Battery_BMS_Online"
+      state_topic: "solar/ems/0001/Battery_BMS_Online"
+#      device_class: connectivity
+
+    #BMS-Type
+    - name: "EMS_0001_Battery_BMS_Type"
+      state_topic: "solar/ems/0001/Battery_BMS_Type"
+
+    #Batterie BMS maximale Spannung
+    - name: "EMS_0001_Battery_BMS_Max_Voltage"
+      state_topic: "solar/ems/0001/Battery_BMS_Max_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+
+    #Batterie BMS maximaler Ladestrom
+    - name: "EMS_0001_Battery_BMS_Max_Current"
+      state_topic: "solar/ems/0001/Battery_BMS_Max_Current"
+      unit_of_measurement: "A"
+      device_class: current
+
+    #Batterie BMS minimale Spannung
+    - name: "EMS_0001_Battery_BMS_Min_Voltage"
+      state_topic: "solar/ems/0001/Battery_BMS_Min_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+
+    #Batterie BMS maximale Spannung
+    - name: "EMS_0001_Battery_Max_Voltage"
+      state_topic: "solar/ems/0001/Battery_Max_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+
+    #Batterietemperatur (funktioniert nur mit korrekt angeschlossenem BMS. sonst ist der Wert immer fest)
+    - name: "EMS_0001_Battery_Temperature"
+      state_topic: "solar/ems/0001/Battery_Temperature"
+      unit_of_measurement: "°C"
+      device_class: temperature
+
+
+##### benutzerdefinierte Batterieeinstellungen ######
+    #Batterieart
+    - name: "EMS_0001_Battery_Type"
+      state_topic: "solar/ems/0001/Battery_Type"
+
+    #Batterie Spannungsart
+    - name: "EMS_0001_Battery_Voltage_Type"
+      state_topic: "solar/ems/0001/Battery_Voltage_Type"
+
+    #Batterie Kapazität
+    - name: "EMS_0001_Battery_Capacity"
+      state_topic: "solar/ems/0001/Battery_Capacity"
+      unit_of_measurement: "Ah"
+      device_class: battery
+
+    #Batterie maximale Ladestrom
+    - name: "EMS_0001_Battery_Max_Current"
+      state_topic: "solar/ems/0001/Battery_Max_Current"
+      unit_of_measurement: "A"
+      device_class: current
+    
+    #Batterie minimale Spannung
+    - name: "EMS_0001_Battery_Min_Voltage"
+      state_topic: "solar/ems/0001/Battery_Min_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+
+
+##### EM #####
+    #Status des EM
+    - name: "EMS_0001_EM_Online"
+      state_topic: "solar/ems/0001/EM_Online"
+    
+    #Leistung auf L1 bzw. Zange A
+    - name: "EMS_0001_EM_A_Power"
+      state_topic: "solar/ems/0001/EM_A_Power"
+      unit_of_measurement: "W"
+      device_class: power
+
+    #Strom auf L1 bzw. Zange A
+    - name: "EMS_0001_EM_A_Current"
+      state_topic: "solar/ems/0001/EM_A_Current"
+      unit_of_measurement: "A"
+      device_class: current
+
+    #Spannung auf L1 bzw. Zange A
+    - name: "EMS_0001_EM_A_Voltage"
+      state_topic: "solar/ems/0001/EM_A_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+
+    #Leistung auf L2 bzw. Zange B
+    - name: "EMS_0001_EM_B_Power"
+      state_topic: "solar/ems/0001/EM_B_Power"
+      unit_of_measurement: "W"
+      device_class: power
+
+    #Strom auf L2 bzw. Zange B
+    - name: "EMS_0001_EM_B_Current"
+      state_topic: "solar/ems/0001/EM_B_Current"
+      unit_of_measurement: "A"
+      device_class: current
+    
+    #Spannung auf L2 bzw. Zange B
+    - name: "EMS_0001_EM_B_Voltage"
+      state_topic: "solar/ems/0001/EM_B_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+
+    #Leistung auf L3 bzw. Zange C
+    - name: "EMS_0001_EM_C_Power"
+      state_topic: "solar/ems/0001/EM_C_Power"
+      unit_of_measurement: "W"
+      device_class: power
+
+    #Strom auf L3 bzw. Zange C
+    - name: "EMS_0001_EM_C_Current"
+      state_topic: "solar/ems/0001/EM_C_Current"
+      unit_of_measurement: "A"
+      device_class: current
+    #Spannung auf L3 bzw. Zange C
+    - name: "EMS_0001_EM_C_Voltage"
+      state_topic: "solar/ems/0001/EM_C_Voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+
+    #summierte Leistung alles drei Phase bzw. Klemmen
+    - name: "EMS_0001_EM_Total_Power"
+      state_topic: "solar/ems/0001/EM_Total_Power"
+      unit_of_measurement: "W"
+      device_class: power
+############### MQTT Tentek EMS ###############
