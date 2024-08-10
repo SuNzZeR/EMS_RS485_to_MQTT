@@ -37,17 +37,28 @@ Das Skript liest Daten von einem EMS über RS485, verarbeitet sie und veröffent
 - `paho-mqtt` Bibliothek für MQTT-Kommunikation
 
 ### RS485 Verkabelung 
-Stelle sicher, dass der EMS und die Batterie richtig am RPi angeschlossen sind.
+Stelle sicher, dass der EMS (und die Batterie richtig) am RPi angeschlossen ist/sind.
+
+#### Variante 1
 | EMS RS485                    | RPi RS485 (ohne 120 Ohm Widerstand)  | BMS RS485                                         |
 |------------------------------|--------------------------------------|---------------------------------------------------|
 | Pin 1                        | Anschluss A                          | Pin 6                                             |
 | Pin 5                        | Anschluss B                          | Pin 5                                             |
+
+#### Variante 2
+| EMS RS485                    | RPi RS485 (mit 120 Ohm Widerstand)  |
+|------------------------------|-------------------------------------|
+| Pin 1                        | Anschluss A                         |
+| Pin 5                        | Anschluss B                         | 
 
 ### Anleitungen für Installation von
 - [Raspberry Pi OS](https://www.raspberrypi.com/documentation/computers/getting-started.html)
 - [RS485 CAN HAT am RPi](https://www.waveshare.com/wiki/RS485_CAN_HAT#RS485_Usage) (falls verwendet)
 
 ### Vorbereitung des USB to RS485 Converters (falls verwendet)
+
+Dieser Schitt muss bei Variante 2 ausgelassen werden!
+
 Leider kommen die "USB to RS485"-Converter immer mit einem 120 Ohm Widerstand. Dieser muss "ausgebaut" werden, da es sonst zu Störungen zwischen EMS und dem BMS kommt. Wichtig ist, dass dabei die Platine nicht beschädigt wird und dass kein Kontakt zwischen Anschluss A und Abnschluss B entsteht.
 
 ![USB to RS485 Converter Widerstanad](USB_TO_RS485_FAQ01.png)
