@@ -55,7 +55,7 @@ Stelle sicher, dass der EMS (und die Batterie richtig) am RPi angeschlossen ist/
 - [Raspberry Pi OS](https://www.raspberrypi.com/documentation/computers/getting-started.html)
 - [RS485 CAN HAT am RPi](https://www.waveshare.com/wiki/RS485_CAN_HAT#RS485_Usage) (falls verwendet)
 
-### Vorbereitung des USB to RS485 Converters (falls verwendet)
+### Vorbereitung des USB to RS485 Converters (falls verwendet & nur bei Variante 1)
 
 Dieser Schitt muss bei Variante 2 ausgelassen werden!
 
