@@ -1,5 +1,5 @@
 
-# RS485 zu MQTT Schnittstelle für den Tentek EMS
+# RS485 zu MQTT Schnittstelle für den Tentek 1,6kW EMS
 
 ![Tentek EMS Controller](TTTEMS1600-1000-1.png)
 
