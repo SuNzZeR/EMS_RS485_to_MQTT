@@ -37,7 +37,7 @@ Das Skript liest Daten von einem EMS über RS485, verarbeitet sie und veröffent
 - `paho-mqtt` Bibliothek für MQTT-Kommunikation
 
 ### RS485 Verkabelung 
-Stelle sicher, dass der EMS (und die Batterie richtig) am RPi angeschlossen ist/sind.
+Stelle sicher, dass der EMS (und die Batterie) richtig am RPi angeschlossen ist/sind.
 
 #### Variante 1
 | EMS RS485                    | RPi RS485 (ohne 120 Ohm Widerstand)  | BMS RS485                                         |
