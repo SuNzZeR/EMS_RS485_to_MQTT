@@ -657,15 +657,15 @@ def ems_parse_value(value_address, value):
         
             parsed_value = "off"
 
-    elif value_address in [0x4001, 0x401F, 0x4002, 0x4005, 0x4018, 0x4017, 0x4020, 0x3027, 0x3029, 0x302A, 0x302C, 0x4023, 0x4024, 0x4025]:
+    elif value_address in [0x401C, 0x401A, 0x400E, 0x4010, 0x4001, 0x401E, 0x401F, 0x4002, 0x4005, 0x4018, 0x4017, 0x4020, 0x4021, 0x3027, 0x3029, 0x302A, 0x302C, 0x4023, 0x4024, 0x4025]:
         
         parsed_value = value / 10
 
-    elif value_address in [0x4003, 0x4006, 0x4019, 0x401C, 0x401B, 0x4026, 0x4027, 0x4028]:
+    elif value_address in [0x4003, 0x4006, 0x4019, 0x401B, 0x4026, 0x4027, 0x4028, 0x3028, 0x302B]:
         
         parsed_value = value / 100
 
-    elif value_address in [0x4004, 0x4007]:
+    elif value_address in [0x302E, 0x3072, 0x4004, 0x4007, 0x401D, 0x301F, 0x3022]:
         
         parsed_value = value / 1
 
@@ -825,7 +825,7 @@ def read_ems():
         
             write_ems(0x303B,0x0001,EMS_EM_Value)
             
-            request_ems(0x302E,0x0010)
+            request_ems(0x302E,0x0014)
             
             EMS_EM_FLG = False
         
@@ -836,7 +836,7 @@ def read_ems():
         
             write_ems(0x3039,0x0001,EMS_Bypass_Value)
             
-            request_ems(0x302E,0x0010)
+            request_ems(0x302E,0x0014)
             
             EMS_Bypass_FLG = False
         
@@ -847,7 +847,7 @@ def read_ems():
         
             write_ems(0x302E,0x0001,EMS_Power_Limit_Value)
             
-            request_ems(0x302E,0x0010)
+            request_ems(0x302E,0x0014)
             
             EMS_Power_Limit_FLG = False
         
@@ -855,37 +855,43 @@ def read_ems():
         
         # Regelmäßige Leseanforderungen an das EMS.
         # Temperatur und MPPT Informationen
-        request_ems(0x4001,0x0010)
+        write_log("##################### - Temperatur und MPPT Informationen", logging.DEBUG)
+        request_ems(0x4001,0x0014)
         
         # Zyklische zusätzliche Leseanforderungen.
         if sequence == 0:
 
             # CT Informationen
-            request_ems(0x3022,0x000C) 
+            write_log("##################### - CT Informationen", logging.DEBUG)
+            request_ems(0x4022,0x0014) 
         
         elif sequence == 1:
 
             # Batterie & CT Informationen
-            request_ems(0x303A,0x0009)
-        
+            write_log("##################### - Batterie & CT Informationen", logging.DEBUG)
+            request_ems(0x403A,0x0014)
+                 
         elif sequence == 2:
+             
+            # Batterie & EMS Informationen
+            write_log("##################### - Batterie & EMS Informationen", logging.DEBUG)
+            request_ems(0x4016,0x0014)      
+        
+        elif sequence == 3:
 
             if sequence_2 == 0:
                 
                 # Batterie Einstellungen
-                request_ems(0x301F,0x000E) 
+                write_log("##################### - Batterie Einstellungen", logging.DEBUG)
+                request_ems(0x301F,0x0014) 
                 
             elif sequence_2 == 1:
                  
                 # EMS Einstellungen
-                request_ems(0x302D,0x000F) 
-                 
-            elif sequence_2 == 2:
-                 
-                # Batterie & EMS Informationen
-                request_ems(0x4016,0x000C)       
+                write_log("##################### - EMS Einstellungen", logging.DEBUG)
+                request_ems(0x302D,0x0014) 
 
-            if sequence_2 == 2:
+            if sequence_2 == 1:
         
                 sequence_2 = 0
             
@@ -893,7 +899,7 @@ def read_ems():
         
                 sequence_2 += 1
         
-        if sequence == 2:
+        if sequence == 3:
         
             sequence = 0
             
