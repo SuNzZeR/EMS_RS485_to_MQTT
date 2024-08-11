@@ -76,6 +76,7 @@ Herausfinden des angeschlossenen RS485
 USB to RS485:
 ```bash
 sudo ls -l /dev/ttyUSB*
+sudo ls -l /dev/ttyACM*
 ```
 
 RS485 HAT:
