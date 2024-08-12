@@ -11,7 +11,6 @@ Dieses Projekt bietet eine Schnittstelle zwischen RS485-Kommunikation und MQTT f
 - [Setup und Installation](#setup-und-installation)
 - [Konfiguration](#konfiguration)
 - [Verwendung](#verwendung)
-- [Protokollierung](#protokollierung)
 - [MQTT-Topics](#mqtt-topics)
 - [HomeAssistant MQTT-Entitäten](#homeassistant-mqtt-entitäten)
 - [Lizenz](#lizenz)
@@ -148,12 +147,18 @@ MQTT_USERNAME = "mqtt"
 MQTT_PASSWORD = "12345"
 ```
 
-### Protokollierungskonfiguration
-Setze die Protokollierungsparameter:
+### Protokollierung
+Das Skript protokolliert verschiedene Ereignisse und Fehler. Die Protokolldatei wird durch die Variable `LOG_FILE` angegeben. Setze hierfür die Protokollierungsparameter:
 ```python
 LOG_LEVEL = logging.INFO
 LOG_FILE = "/home/pi/ems_mqtt/your_script_name.log"
 ```
+#### Protokollierungsstufen
+- `DEBUG`: Detaillierte Informationen zur Diagnose von Problemen.
+- `INFO`: Bestätigung, dass alles wie erwartet funktioniert.
+- `WARNING`: Ein Hinweis darauf, dass etwas Unerwartetes passiert ist.
+- `ERROR`: Ein ernsteres Problem.
+- `CRITICAL`: Ein sehr ernstes Problem.
 
 ## Verwendung
 
@@ -196,16 +201,6 @@ Starte den Service
 ```bash
 sudo systemctl start ems_mqtt.service
 ```
-
-## Protokollierung
-Das Skript protokolliert verschiedene Ereignisse und Fehler. Die Protokolldatei wird durch die Variable `LOG_FILE` angegeben.
-
-### Protokollierungsstufen
-- `DEBUG`: Detaillierte Informationen zur Diagnose von Problemen.
-- `INFO`: Bestätigung, dass alles wie erwartet funktioniert.
-- `WARNING`: Ein Hinweis darauf, dass etwas Unerwartetes passiert ist.
-- `ERROR`: Ein ernsteres Problem.
-- `CRITICAL`: Ein sehr ernstes Problem.
 
 ## MQTT Topics
 
