@@ -151,7 +151,7 @@ MQTT_PASSWORD = "12345"
 Das Skript protokolliert verschiedene Ereignisse und Fehler. Die Protokolldatei wird durch die Variable `LOG_FILE` angegeben. Setze hierfür die Protokollierungsparameter:
 ```python
 LOG_LEVEL = logging.INFO
-LOG_FILE = "/home/pi/ems_mqtt/your_script_name.log"
+LOG_FILE = "/home/pi/EMS_RS485_to_MQTT/ems_rs485_to_mqtt.log"
 ```
 #### Protokollierungsstufen
 - `DEBUG`: Detaillierte Informationen zur Diagnose von Problemen.
