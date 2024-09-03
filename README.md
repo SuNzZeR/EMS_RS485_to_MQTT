@@ -181,8 +181,8 @@ Description=RS485 to MQTT Service for EMS
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /home/pi/ems_mqtt/ems_rs485_to_mqtt.py
-WorkingDirectory=/home/pi/ems_mqtt
+ExecStart=/usr/bin/python3 /home/pi/EMS_RS485_to_MQTT/ems_rs485_to_mqtt.py
+WorkingDirectory=/home/pi/EMS_RS485_to_MQTT
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
